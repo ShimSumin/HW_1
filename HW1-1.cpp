@@ -2,7 +2,8 @@
 using namespace std;
 
 void setPotion(int count, int* p_HPPotion, int* p_MPPotion);
-int StackSystem(int n, int* status[], int* p_HP, int* p_MP);
+int StatSystem(int n, int* status[], int* p_HP, int* p_MP,int* Level);
+void UpPotion(int count, int* p_HPPotion, int* p_MPPotion);
 
 int main() 
 {
@@ -14,6 +15,7 @@ int main()
 	int number = 0;
 	int HPPotion = 0;
 	int MPPotion = 0;
+	int Level = 0;
 	
 	while (true)
 	{	cout << " HP와 MP를 입력해주세요 : " ;
@@ -57,7 +59,7 @@ int main()
 		cin >> number;
 		cout << "============================" << endl<<endl;
 
-		StackSystem(number, status, &HPPotion, &MPPotion);
+		StatSystem(number, status, &HPPotion, &MPPotion,&Level);
 
 		if (number == 0)
 			break;
@@ -70,8 +72,12 @@ void setPotion(int count, int* p_HPPotion, int* p_MPPotion)
 	* p_HPPotion = count;
 	* p_MPPotion = count;
 }
+void UpPotion(int count, int* p_HPPotion, int* p_MPPotion) {
+	*p_HPPotion += count;
+	*p_MPPotion += count;
+}
 
-int StackSystem(int n, int* status[], int* p_HP, int* p_MP) {
+int StatSystem(int n, int* status[], int* p_HP, int* p_MP,int*Level) {
 	
 	switch (n) {
 
@@ -80,7 +86,7 @@ int StackSystem(int n, int* status[], int* p_HP, int* p_MP) {
 		{
 			cout << "포션이 부족합니다." << endl;
 			cout << "현재 HP : " << *status[0]
-				<< endl << "남은 포션 수 : " << *p_HP << endl<<endl;
+				<< endl << "남은 HP 포션 수 : " << *p_HP << endl<<endl;
 			break;
 		}
 		else {
@@ -88,7 +94,7 @@ int StackSystem(int n, int* status[], int* p_HP, int* p_MP) {
 			*status[0] += 20;
 			(*p_HP)--;
 			cout << "현재 HP : " << *status[0]
-				<< endl << "남은 포션 수 : " << *p_HP << endl<<endl;
+				<< endl << "남은 HP 포션 수 : " << *p_HP << endl<<endl;
 			break;
 		}
 		
@@ -96,8 +102,8 @@ int StackSystem(int n, int* status[], int* p_HP, int* p_MP) {
 		if (*p_MP <= 0)
 		{
 			cout << "포션이 부족합니다." << endl;
-			cout << "현재 HP : " << *status[1]
-				<< endl << "남은 포션 수 : " << *p_MP << endl<<endl;
+			cout << "현재 MP : " << *status[1]
+				<< endl << "남은 MP 포션 수 : " << *p_MP << endl<<endl;
 			break;
 		}
 		else {
@@ -105,7 +111,7 @@ int StackSystem(int n, int* status[], int* p_HP, int* p_MP) {
 			*status[1] += 20;
 			--*p_MP;
 			cout << "현재 MP : " << *status[1]
-				<< endl << "남은 포션 수 : " << *p_MP << endl<<endl;
+				<< endl << "남은 MP 포션 수 : " << *p_MP << endl<<endl;
 			break;
 		}
 
@@ -126,14 +132,17 @@ int StackSystem(int n, int* status[], int* p_HP, int* p_MP) {
 			<< ", MP : " << *status[1]
 			<< ", 공격력 : " << *status[2]
 			<< ", 방어력 : " << *status[3]
+			<< ", Level :" << *Level << endl
+			<< "남은 HP 포션 수 : " << *p_HP << " 남은 MP 포션 수 : " << *p_MP
 			<< endl<<endl;
 		break;
 
 	case 6:
 		cout << "* 레벨 업 !! HP/MP 포션이 지급됩니다." << endl;
-		(*p_HP)++;
-		(*p_MP)++;
-		cout << "남은 HP/MP 포션 수 : " << *p_HP << "/" << *p_MP << endl<<endl;
+		UpPotion(1, p_HP, p_MP);
+		(*Level)++;
+		cout << "남은 HP/MP 포션 수 : " << *p_HP << "/" << *p_MP << endl
+			<<"Level UP!\n현재 Level : "<<*Level<<endl<<endl;
 		break;
 
 	case 0:
